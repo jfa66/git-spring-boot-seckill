@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.seckill.mapper.SeckillMapper">
+    <select id="getSeckillList" resultType="com.example.seckill.entity.Seckill">
+        select seckill_id, name, number, start_time, end_time, create_time, version
+        from seckill;
+    </select>
+
+    <select id="getById" resultType="com.example.seckill.entity.Seckill">
+        select seckill_id, name, number, start_time, end_time, create_time, version
+        from seckill
+        where seckill_id = #{seckillId};
+    </select>
+
+    <select id="getShopNum" resultType="Long">
+        select number
+        from seckill
+        where seckill_id = #{seckillId};
+    </select>
+
+    <update id="subShop">
+        update seckill
+        set number=number - 1
+        where seckill_id = #{seckillId};
+    </update>
+
+    <update id="subShopByVersion">
+        update seckill
+        set number=number - 1,
+            version=version + 1
+        where seckill_id = #{seckillId}
+          and version = #{version};
+    </update>
+
+    <update id="rollbackShopNum">
+        update seckill
+        set number=100
+        where seckill_id = #{seckillId};
+    </update>
+
+</mapper>
